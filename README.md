@@ -1,12 +1,16 @@
-# MultiplayerInput
+# MultiplayerInputSharp
+
+Note: This is a C# port of https://github.com/matjlars/godot-multiplayer-input. All credit for this solution should go to matjlars (Matt), and any contributors to that repository.
+The code in this version is intentionally kept similar to aid porting of any future updates.
+
 This Godot addon provides two simple APIs for using normal Input Actions, but spread out across a Keyboard player and up to 8 Joypad players.
 
 
 # Simple Usage
 
 ## Installation
-1. Download the addons/multiplayer_input directory into your project
-1. In Project Settings -> Plugins, find the MultiplayerInput addon and click the "Enable" check box.
+1. Download the addons/multiplayer_input_sharp directory into your project
+1. In Project Settings -> Plugins, find the MultiplayerInputSharp addon and click the "Enable" check box.
 1. Change your code to use the new MultiplayerInput singleton instead of the Input singleton anywhere you want to support multiple devices.
 
 ## Set up actions
@@ -20,13 +24,13 @@ This allows you to keep a clean list in your InputMap in the editor, and also ha
 Basically, instead of doing this:
 
 ```
-Input.is_action_pressed("jump")
+Input.IsActionPressed("jump")
 ```
 
 You want to instead do this:
 
 ```
-MultiplayerInput.is_action_pressed(device, "jump")
+MultiplayerInput.IsActionPressed(device, "jump")
 ```
 
 So you may be wondering, what is "device"?
@@ -58,20 +62,23 @@ In other words, it is sort of an object oriented replacement of the Input single
 Here is a basic usage example:
 
 ```
-# player_controller.gd
-var input
+// PlayerController.cs
+private DeviceInput _input;
 
-func set_device(device: int):
-    input = DeviceInput.new(device)
+public void SetDevice(int device) {
+  _input = new DeviceInput(device);
+}
 
-func _process(delta):
-    if input.is_action_just_pressed("jump"):
-        jump()
+public override void _Process(double delta) {
+  if (_input.IsActionJustPressed("jump")) {
+    Jump();
+  }
+}
 ```
 
 Notice how the player is passed the relevant "device" number, and then the rest of the code looks exactly like using the Input singleton, except it's using a DeviceInput object instead.
 
-Take a look at addons/multiplayer_input/device_input.gd for all the functions.
+Take a look at addons/multiplayer_input_sharp/DeviceInput.cs for all the functions.
 
 The great thing is, this works for the keyboard player as well as any of the joypad players if you use a device integer of -1 for the keyboard player.
 
@@ -79,11 +86,14 @@ The great thing is, this works for the keyboard player as well as any of the joy
 If you want to do some logic that doesn't work with the actions system, for example reading relative mouse input, just do an if statement like this:
 
 ```
-var input
+private DeviceInput _input;
 
-func _input(event):
-    if !input.is_keyboard(): return
-    # in this context, you know this is a keyboard/mouse player, so you can read mouse input here and do stuff
+public override void _Input(InputEvent event) {
+    if (!_input.IsKeyboard()) {
+      return;
+    }
+    // in this context, you know this is a keyboard/mouse player, so you can read mouse input here and do stuff
+  }
 ```
 
 ## What about other Input functions?
