@@ -11,15 +11,20 @@ config_version=5
 [application]
 
 config/name="MultiplayerInput"
-config/features=PackedStringArray("4.2", "Forward Plus")
+run/main_scene="res://demo/demo.tscn"
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 
 [autoload]
 
-MultiplayerInput="*res://addons/multiplayer_input/multiplayer_input.gd"
+MultiplayerInputSharp="*res://addons/multiplayer_input_sharp/MultiplayerInput.cs"
+
+[dotnet]
+
+project/assembly_name="MultiplayerInput"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/multiplayer_input/plugin.cfg")
+enabled=PackedStringArray("res://addons/multiplayer_input_sharp/plugin.cfg")
 
 [input]
 
