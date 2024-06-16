@@ -38,6 +38,10 @@ public partial class MultiplayerInput : Node {
   private static List<string> _ignoredGuids = new ();
 
   static MultiplayerInput() {
+    if (Engine.IsEditorHint()) {
+      return;
+    }
+
     Reset();
   }
 
