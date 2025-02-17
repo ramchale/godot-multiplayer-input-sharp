@@ -142,7 +142,7 @@ public partial class DeviceInput : RefCounted {
 
   /// <summary>This is equivalent to Input.isActionJustReleased except it will only check the relevant device.</summary>
   public bool IsActionJustReleased(StringName action, bool exactMatch = false) {
-    if (_isConnected) {
+    if (!_isConnected) {
       return false;
     }
 
@@ -151,7 +151,7 @@ public partial class DeviceInput : RefCounted {
 
   /// <summary>This is equivalent to Input.isActionPressed except it will only check the relevant device.</summary>
   public bool IsActionPressed(StringName action, bool exactMatch = false) {
-    if (_isConnected) {
+    if (!_isConnected) {
       return false;
     }
 
